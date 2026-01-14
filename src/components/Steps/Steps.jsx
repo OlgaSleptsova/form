@@ -25,20 +25,24 @@ function Steps() {
     let [date, distance] = e.target;
     let tren;
     const oldDate = listArr.find(item => item.date === date.value)
-   if (oldDate){ 
-  const oldDateIndex = listArr.indexOf(date.value)  
-  let newDistanse = Number(distance.value) + oldDate.distance
-  const values = Object.values(oldDate)
-  const keys = Object.keys(oldDate)
-  values.splice(2,2,newDistanse)
-  const entries = keys.map((key, index) => [key, values[index]]);
-  const newlistArr = Object.fromEntries(entries);
-  listArr.splice(oldDateIndex,1);
-  tren = newlistArr;
-  setListArr(prev => [...prev, tren])}
-    else{tren = new Tren(date.value,Number(distance.value));
-    setListArr(prev => [...prev, tren])};}
     
+    
+   if (oldDate){ 
+   
+  let newDistanse = Number(distance.value) + oldDate.distance
+  tren = new Tren(date.value,newDistanse)
+  let newArray = listArr.filter(item => item.id !== oldDate.id);
+  console.log(newArray)
+  setListArr(newArray)
+  setListArr(prev => [...prev, tren])
+  
+  
+}
+    else{tren = new Tren(date.value,Number(distance.value));
+    setListArr(prev => [...prev, tren])};
+     
+  }
+  
    
  
   const handleDelete = (idToDelete) => {
@@ -70,7 +74,7 @@ function Steps() {
         </div>
         <div className="form__box">
           <label className="form__title" htmlFor="distance">Пройдено, км</label>
-          <input className="form__input-distance" type="text" name="distance"/>
+          <input className="form__input-distance" type="number" name="distance"/>
         </div>
         <button className="form__btn" type="submit">ОК</button>
       </form>
